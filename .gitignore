@@ -1,0 +1,76 @@
+# ==================================================
+# macOS
+# ==================================================
+.DS_Store
+
+# ==================================================
+# Local Project Files (Do Not Publish)
+# ==================================================
+Documentation/
+archive/
+config/
+notebook/
+smart_energy_local_dev/
+others/
+
+Smart_Energy_Architecture_Workflow.pdf
+Smart_Energy_DataOps_Plan.pdf
+Smart_Energy_DataOps_Project_Plan.pdf
+cgpt roadmap.pdf
+claude project roadmap.pdf.pages
+resume bullet.pages
+archive.zip
+
+# ==================================================
+# Python
+# ==================================================
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual Environments
+**/.venv/
+**/venv/
+**/env/
+
+# ==================================================
+# dbt Generated Files
+# ==================================================
+dbt/**/target/
+dbt/**/logs/
+dbt/**/dbt_packages/
+
+# ==================================================
+# VS Code
+# ==================================================
+.vscode/
+
+# ==================================================
+# Jupyter
+# ==================================================
+.ipynb_checkpoints/
+
+# ==================================================
+# Secrets & Credentials
+# ==================================================
+.env
+.env.*
+*.pem
+*.key
+*.crt
+
+# Databricks / Azure secrets
+db_token
+*.token
+
+# ==================================================
+# Logs
+# ==================================================
+*.log
+
+# ==================================================
+# Temporary Files
+# ==================================================
+*.tmp
+*.temp
+*.swp

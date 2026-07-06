@@ -1,0 +1,11 @@
+{
+  "name": "LS_ADLS_GEN2",
+  "type": "Microsoft.DataFactory/factories/linkedservices",
+  "properties": {
+    "annotations": [],
+    "type": "AzureBlobFS",
+    "typeProperties": {
+      "url": "https://stsmartenergy.dfs.core.windows.net"
+    }
+  }
+}

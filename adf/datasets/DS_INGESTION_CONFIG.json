@@ -1,0 +1,21 @@
+{
+    "name": "DS_INGESTION_CONFIG",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "LS_ADLS_GEN2",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "Json",
+        "typeProperties": {
+            "location": {
+                "type": "AzureBlobFSLocation",
+                "fileName": "ingestion_config.json",
+                "folderPath": "config",
+                "fileSystem": "datalake"
+            }
+        },
+        "schema": {}
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

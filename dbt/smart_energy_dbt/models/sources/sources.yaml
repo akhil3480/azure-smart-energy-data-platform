@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: silver
+    catalog: smart_energy_databricks
+    schema: silver
+    description: "Cleaned Silver Delta tables created by Databricks PySpark transformations."
+
+    tables:
+      - name: household
+        description: "Cleaned household reference data."
+
+      - name: energy_daily
+        description: "Cleaned daily household energy consumption data with data quality status."
+
+      - name: weather_daily
+        description: "Cleaned daily weather data."
+
+      - name: holiday
+        description: "Cleaned UK holiday reference data."

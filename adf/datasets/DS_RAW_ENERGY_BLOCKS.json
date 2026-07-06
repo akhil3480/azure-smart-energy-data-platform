@@ -1,0 +1,32 @@
+{
+    "name": "DS_RAW_ENERGY_BLOCKS",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "LS_ADLS_GEN2",
+            "type": "LinkedServiceReference"
+        },
+        "parameters": {
+            "p_target_folder": {
+                "type": "string"
+            }
+        },
+        "annotations": [],
+        "type": "DelimitedText",
+        "typeProperties": {
+            "location": {
+                "type": "AzureBlobFSLocation",
+                "folderPath": {
+                    "value": "@dataset().p_target_folder",
+                    "type": "Expression"
+                },
+                "fileSystem": "datalake"
+            },
+            "columnDelimiter": ",",
+            "escapeChar": "\\",
+            "firstRowAsHeader": true,
+            "quoteChar": "\""
+        },
+        "schema": []
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}
