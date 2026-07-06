@@ -1,14 +1,16 @@
 # Smart Energy Data Platform
 
-This project demonstrates an end-to-end Azure Data Engineering pipeline that ingests smart meter energy data, transforms it using Databricks, models it into a star schema with dbt, and prepares it for analytics and forecasting.
+This project is an end-to-end Azure Data Engineering solution built using Azure Data Factory, Azure Data Lake Storage Gen2, Azure Databricks, and dbt.
 
-The project was built to gain hands-on experience with a modern Azure data stack while following industry practices such as metadata-driven ingestion, Medallion Architecture, Delta Lake, and modular data modeling.
+The goal of the project is to build a modern Medallion Architecture that ingests smart meter energy data, transforms it into analytics-ready datasets, and prepares it for downstream forecasting and reporting.
 
 ---
 
 ## Architecture
 
-*(Architecture diagram will be added here.)*
+<p align="center">
+  <img src="screenshots/architecture.png" alt="Smart Energy Data Platform Architecture" width="1000">
+</p>
 
 ---
 
@@ -39,47 +41,53 @@ The project combines multiple datasets:
 ## Project Structure
 
 ```text
-adf/           Azure Data Factory artifacts
-databricks/    PySpark notebooks
-dbt/           Gold models, tests and documentation
-screenshots/   Project screenshots
+adf/            Azure Data Factory artifacts
+databricks/     PySpark notebooks
+dbt/            Gold models, tests and documentation
+screenshots/    Project screenshots
 ```
 
 ---
 
 ## Pipeline
 
-### 1. Ingestion (ADF)
+### 1. Data Ingestion (Azure Data Factory)
+
+A metadata-driven Azure Data Factory pipeline loads data into the Raw layer.
+
+Current workflow:
 
 - Reads ingestion configuration from JSON
-- Loads source files into the Raw layer
+- Iterates through configured datasets
+- Copies source files into the Raw layer
 - Archives processed files
-- Removes processed source files
+- Deletes successfully processed source files
 
-*(ADF screenshot will be added.)*
+*(ADF pipeline screenshot will be added here.)*
 
 ---
 
-### 2. Silver Layer (Databricks)
+### 2. Silver Layer (Azure Databricks)
 
-The Silver layer standardizes and cleans the raw datasets.
+The Silver layer standardizes and cleans the raw datasets before they are used for analytics.
 
 Current transformations include:
 
 - Column standardization
 - Data type conversion
+- Basic data quality checks
 - Delta Lake conversion
 - Unity Catalog registration
 
-*(Databricks screenshot will be added.)*
+*(Databricks notebook screenshot will be added here.)*
 
 ---
 
 ### 3. Gold Layer (dbt)
 
-dbt creates analytics-ready models from the Silver Delta tables.
+dbt reads the Silver Delta tables and builds a dimensional model using a Star Schema.
 
-Current models:
+Current models include:
 
 **Dimensions**
 
@@ -91,27 +99,28 @@ Current models:
 - fact_energy_daily
 - fact_weather_daily
 
-The project also includes dbt tests and documentation.
+The project also includes dbt tests, documentation, and model lineage.
 
-*(dbt lineage screenshot will be added.)*
+*(dbt lineage screenshot will be added here.)*
 
 ---
 
 ## Current Status
 
-Completed
+### Completed
 
-- Metadata-driven Azure Data Factory pipeline
-- Raw, Silver and Gold architecture
-- Databricks transformations
-- Delta Lake implementation
-- dbt models
-- dbt tests
-- dbt documentation
+- ✅ Metadata-driven Azure Data Factory pipeline
+- ✅ Raw, Silver and Gold architecture
+- ✅ Azure Databricks transformations
+- ✅ Delta Lake implementation
+- ✅ Unity Catalog integration
+- ✅ dbt Gold models
+- ✅ dbt tests
+- ✅ dbt documentation
 
-Planned
+### Planned
 
-- Watermark-based incremental loading
+- Watermark-based incremental ingestion
 - Weather enrichment
 - Forecasting using Prophet
 - Power BI dashboard
@@ -121,10 +130,11 @@ Planned
 
 ## Repository
 
-```
-adf/           Data ingestion
-databricks/    Silver transformations
-dbt/           Gold layer
+```text
+adf/            Data ingestion
+databricks/     Silver layer transformations
+dbt/            Gold layer models
+screenshots/    Documentation images
 ```
 
 ---
