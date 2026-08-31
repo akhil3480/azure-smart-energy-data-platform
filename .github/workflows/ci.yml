@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate project artifacts
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install CI dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install dbt-core dbt-databricks PyYAML nbformat
+
+      - name: Validate ADF JSON artifacts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          paths = sorted(Path("adf").rglob("*.json"))
+          if not paths:
+              raise SystemExit("No ADF JSON artifacts found.")
+
+          for path in paths:
+              with path.open() as handle:
+                  json.load(handle)
+              print(f"valid json: {path}")
+          PY
+
+      - name: Validate YAML artifacts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          paths = sorted(
+              list(Path(".").rglob("*.yml")) +
+              list(Path(".").rglob("*.yaml"))
+          )
+          paths = [
+              path for path in paths
+              if ".venv" not in path.parts
+              and "target" not in path.parts
+              and "dbt_packages" not in path.parts
+          ]
+
+          for path in paths:
+              with path.open() as handle:
+                  yaml.safe_load(handle)
+              print(f"valid yaml: {path}")
+          PY
+
+      - name: Validate notebook JSON structure
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import nbformat
+
+          paths = sorted(Path(".").rglob("*.ipynb"))
+          paths = [path for path in paths if ".ipynb_checkpoints" not in path.parts]
+
+          for path in paths:
+              nbformat.read(path, as_version=4)
+              print(f"valid notebook: {path}")
+          PY
+
+      - name: Compile Databricks Python notebooks
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          for path in sorted(Path("databricks").rglob("*.py")):
+              source = path.read_text()
+              code_lines = [
+                  line for line in source.splitlines()
+                  if not line.lstrip().startswith("# MAGIC")
+                  and not line.lstrip().startswith("# COMMAND")
+              ]
+              compile("\n".join(code_lines), str(path), "exec")
+              print(f"compiled python: {path}")
+          PY
+
+      - name: Parse dbt project
+        working-directory: dbt/smart_energy_dbt
+        env:
+          DBT_PROFILES_DIR: ../../.github/dbt
+        run: dbt parse

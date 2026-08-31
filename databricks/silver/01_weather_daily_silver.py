@@ -172,7 +172,7 @@ weather_daily_df.printSchema()
 
 display(weather_daily_df)
 
-print(weather_daily_df.count()
+print(weather_daily_df.count())
 
 # COMMAND ----------
 

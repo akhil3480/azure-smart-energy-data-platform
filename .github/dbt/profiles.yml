@@ -1,0 +1,11 @@
+smart_energy_dbt:
+  target: ci
+  outputs:
+    ci:
+      type: databricks
+      catalog: smart_energy_databricks
+      schema: gold_ci
+      host: "{{ env_var('DBT_DATABRICKS_HOST', 'dummy.cloud.databricks.com') }}"
+      http_path: "{{ env_var('DBT_DATABRICKS_HTTP_PATH', '/sql/1.0/warehouses/dummy') }}"
+      token: "{{ env_var('DBT_DATABRICKS_TOKEN', 'dummy') }}"
+      threads: 4
