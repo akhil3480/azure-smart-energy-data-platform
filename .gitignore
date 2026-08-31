@@ -6,6 +6,9 @@
 # ==================================================
 # Local Project Files (Do Not Publish)
 # ==================================================
+AGENTS.md
+docs/
+notes/
 Documentation/
 archive/
 config/
@@ -39,6 +42,7 @@ __pycache__/
 dbt/**/target/
 dbt/**/logs/
 dbt/**/dbt_packages/
+.github/dbt/.user.yml
 
 # ==================================================
 # VS Code
