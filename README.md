@@ -105,6 +105,40 @@ The project also includes dbt tests, documentation, and model lineage.
 
 ---
 
+## CI/CD
+
+### Continuous Integration — Implemented
+
+GitHub Actions provides an enforced CI quality gate for changes proposed to `main`.
+
+The workflow runs on pull requests, pushes to `main`, and manual dispatch. It:
+
+- Validates Azure Data Factory JSON artifacts
+- Validates YAML configuration
+- Validates Jupyter notebook JSON structure when notebooks are tracked
+- Compiles Databricks Python notebook exports
+- Parses the dbt project with a CI-safe profile
+- Scans Git history for exposed secrets with Gitleaks
+
+The protected `main` branch requires a pull request, an up-to-date feature branch, resolved review conversations, and a successful `Validate project artifacts` status check. Branch deletion and force pushes are blocked.
+
+These checks validate repository syntax and structure; they do not execute or deploy the complete ETL pipeline.
+
+### Continuous Delivery — Planned
+
+The planned development CD workflow will use:
+
+- GitHub Actions with Microsoft Entra and Azure Databricks workload identity federation
+- Azure Data Factory utilities to validate artifacts and generate ARM templates
+- Azure Resource Manager deployment to a development Data Factory
+- Databricks Declarative Automation Bundles for development workspace deployment and job execution
+- dbt Core execution against an isolated development schema
+- Post-deployment validation and a documented recovery or rollback exercise
+
+No cloud deployment workflow has been implemented or validated yet.
+
+---
+
 ## Current Status
 
 ### Completed
@@ -117,6 +151,7 @@ The project also includes dbt tests, documentation, and model lineage.
 - ✅ dbt Gold models
 - ✅ dbt tests
 - ✅ dbt documentation
+- ✅ GitHub Actions CI validation and protected-branch quality gate
 
 ### Planned
 
@@ -125,6 +160,7 @@ The project also includes dbt tests, documentation, and model lineage.
 - Forecasting using Prophet
 - Power BI dashboard
 - Performance optimization
+- Development CD for ADF, Databricks and dbt
 
 ---
 
